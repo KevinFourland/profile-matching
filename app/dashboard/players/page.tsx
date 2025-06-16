@@ -244,12 +244,23 @@ export default function PlayersPage() {
             </div>
             <div className="space-y-1">
               <Label>Position</Label>
-              <Input
-                name="position"
-                value={form.position}
-                onChange={handleChange}
-                required
-              />
+              <Select
+                value={form.position || ""}
+                onValueChange={(value) =>
+                  setForm((prev) => ({ ...prev, position: value }))
+                }
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select position" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Jungler">Jungler</SelectItem>
+                  <SelectItem value="Roamer">Roamer</SelectItem>
+                  <SelectItem value="Mid Lane">Mid Lane</SelectItem>
+                  <SelectItem value="EXP Lane">EXP Lane</SelectItem>
+                  <SelectItem value="Gold Lane">Gold Lane</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="space-y-1">
               <Label>Win Rate (%)</Label>

@@ -53,7 +53,7 @@ const PlayerSchema = new Schema<PlayerDocument>(
         timestamps: true,
     }
 );
-
+    
 const Player =
     mongoose.models?.Player || model<PlayerDocument>("Player", PlayerSchema);
 

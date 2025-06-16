@@ -18,7 +18,7 @@ import {
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
+// import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
 import {
@@ -28,6 +28,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { useSession } from "next-auth/react"
 
 // This is sample data.
 const data = {
@@ -120,24 +121,24 @@ const data = {
     //   title: "Settings",
     //   url: "#",
     //   icon: Settings2,
-      // items: [
-      //   {
-      //     title: "General",
-      //     url: "#",
-      //   },
-      //   {
-      //     title: "Team",
-      //     url: "#",
-      //   },
-      //   {
-      //     title: "Billing",
-      //     url: "#",
-      //   },
-      //   {
-      //     title: "Limits",
-      //     url: "#",
-      //   },
-      // ],
+    // items: [
+    //   {
+    //     title: "General",
+    //     url: "#",
+    //   },
+    //   {
+    //     title: "Team",
+    //     url: "#",
+    //   },
+    //   {
+    //     title: "Billing",
+    //     url: "#",
+    //   },
+    //   {
+    //     title: "Limits",
+    //     url: "#",
+    //   },
+    // ],
     // },
   ],
   projects: [
@@ -160,6 +161,9 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: session } = useSession();
+  const user = session?.user;
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -170,7 +174,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser
+          user={{
+            name: user?.name || "Unknown",
+            email: user?.email || "",
+            avatar: user?.image || "/avatars/default.jpg", // fallback jika tidak ada
+          }}
+        />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
