@@ -15,12 +15,14 @@ import {
   LayoutDashboard,
   Users,
   BarChart,
+  Settings2,
+  Swords
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
 // import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
+import { SidebarLogo } from "@/components/sidebar-logo"
 import {
   Sidebar,
   SidebarContent,
@@ -29,6 +31,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { useSession } from "next-auth/react"
+import { NavProjects } from "./nav-projects"
 
 // This is sample data.
 const data = {
@@ -143,19 +146,9 @@ const data = {
   ],
   projects: [
     {
-      name: "Dashboard",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Players",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Ranking",
-      url: "#",
-      icon: Map,
+      name: "Profile Matching",
+      url: "/dashboard/profile-matching-setting",
+      icon: Settings2,
     },
   ],
 }
@@ -167,11 +160,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <SidebarLogo/>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        {/* <NavProjects projects={data.projects} /> */}
+        <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser

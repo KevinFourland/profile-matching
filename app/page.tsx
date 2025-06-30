@@ -29,8 +29,11 @@ export default function Home() {
         </p>
         <div className="space-x-4">
           {status === "authenticated" ? (
-            <Button variant="outline" onClick={handleSignOut}>
-              Sign Out
+            // <Button variant="outline" onClick={handleSignOut}>
+            //   Sign Out
+            // </Button>
+            <Button variant="outline">
+              <Link href="/dashboard">Dashboard</Link>
             </Button>
           ) : status === "loading" ? (
             <Button variant="outline" disabled>
