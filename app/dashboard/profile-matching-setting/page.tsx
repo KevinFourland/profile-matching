@@ -43,8 +43,8 @@ const ALL_FACTORS: FactorKey[] = [
 export default function ProfileMatchingSettingsPage() {
     const [core, setCore] = useState<FactorKey[]>([]);
     const [secondary, setSecondary] = useState<FactorKey[]>([]);
-    const [weightCore, setWeightCore] = useState(0.6);
-    const [weightSecondary, setWeightSecondary] = useState(0.4);
+    // sliderValue represents the Core percentage (0-1)
+    const [sliderValue, setSliderValue] = useState(0.6);
     const [openConfirm, setOpenConfirm] = useState(false);
     const router = useRouter();
 
@@ -56,8 +56,8 @@ export default function ProfileMatchingSettingsPage() {
                     if (json.success) {
                         setCore(json.data.coreFactors);
                         setSecondary(json.data.secondaryFactors);
-                        setWeightCore(json.data.weightCore);
-                        setWeightSecondary(json.data.weightSecondary);
+                        // initialize slider from saved weightCore
+                        setSliderValue(json.data.weightCore);
                     }
                 })
         } catch (error) {
@@ -77,7 +77,12 @@ export default function ProfileMatchingSettingsPage() {
 
     async function handleSave() {
         setOpenConfirm(false);
-        const payload = { coreFactors: core, secondaryFactors: secondary, weightCore, weightSecondary };
+        const payload = {
+            coreFactors: core,
+            secondaryFactors: secondary,
+            weightCore: sliderValue,
+            weightSecondary: 1 - sliderValue,
+        };
         const res = await fetch('/api/settings/profile-matching', {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -86,15 +91,13 @@ export default function ProfileMatchingSettingsPage() {
         const json = await res.json();
         if (json.success) {
             router.refresh();
-            // optionally show toast
         } else {
-            // optionally show error toast
+            console.error('Failed to save settings');
         }
     }
 
     return (
         <div className="p-6 space-y-6">
-            {/* Header */}
             <div className="flex items-center justify-between">
                 <h1 className="text-2xl font-bold">Profile Matching Setting</h1>
             </div>
@@ -129,36 +132,27 @@ export default function ProfileMatchingSettingsPage() {
                                 </div>
                             ))}
                         </div>
-                    </div>
-
-                    <div className="space-y-4">
-                        <div>
-                            <Label className="block text-sm font-medium">
-                                Weight Core: {weightCore.toFixed(2)}
-                            </Label>
+                        <div className="col-span-2 space-y-2">
+                            <div className="flex justify-between text-sm font-medium text-gray-700">
+                                <span>Core: {(sliderValue * 100).toFixed(0)}%</span>
+                                <span>Secondary: {((1 - sliderValue) * 100).toFixed(0)}%</span>
+                            </div>
                             <Slider
-                                value={[weightCore]}
+                                value={[sliderValue]}
                                 min={0}
                                 max={1}
-                                step={0.05}
-                                onValueChange={v => setWeightCore(v[0])}
+                                step={0.01}
+                                onValueChange={([v]) => setSliderValue(v)}
                             />
-                        </div>
-                        <div>
-                            <Label className="block text-sm font-medium">
-                                Weight Secondary: {weightSecondary.toFixed(2)}
-                            </Label>
-                            <Slider
-                                value={[weightSecondary]}
-                                min={0}
-                                max={1}
-                                step={0.05}
-                                onValueChange={v => setWeightSecondary(v[0])}
-                            />
+                            <div className="flex justify-between text-xs text-gray-500">
+                                <span>⟵ 100% Secondary</span>
+                                <span>100% Core ⟶</span>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Save with confirmation dialog */}
+                    {/* Single slider for core vs secondary */}
+
                     <div className="text-right">
                         <AlertDialog open={openConfirm} onOpenChange={setOpenConfirm}>
                             <AlertDialogTrigger asChild>
