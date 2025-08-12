@@ -38,7 +38,7 @@ const data = {
   user: {
     name: "shadcn",
     email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    avatar: "/image/avatar-profile.jpg",
   },
   teams: [
     {
@@ -171,7 +171,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           user={{
             name: user?.name || "Unknown",
             email: user?.email || "",
-            avatar: user?.image || "/avatars/default.jpg", // fallback jika tidak ada
+            avatar: user?.image || "/image/avatar-profile.jpg", // fallback jika tidak ada
           }}
         />
       </SidebarFooter>

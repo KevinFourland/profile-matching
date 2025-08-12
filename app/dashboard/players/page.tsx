@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { AlertDialogDelete } from "@/components/alert-dialog-delete";
@@ -231,6 +231,12 @@ export default function PlayersPage() {
             <DialogTitle>
               {isEditing ? "Edit Player" : "Add Player"}
             </DialogTitle>
+            <DialogDescription>
+              {isEditing
+                ? "Edit player details below"
+                : "Fill in the form to create a new player"
+              }
+            </DialogDescription>
           </DialogHeader>
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div className="space-y-1">

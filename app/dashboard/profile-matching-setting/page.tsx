@@ -23,6 +23,7 @@ import {
     AlertDialogFooter,
     AlertDialogAction,
     AlertDialogCancel,
+    AlertDialogDescription,
 } from '@/components/ui/alert-dialog';
 
 type FactorKey =
@@ -161,6 +162,9 @@ export default function ProfileMatchingSettingsPage() {
                             <AlertDialogContent>
                                 <AlertDialogHeader>
                                     <AlertDialogTitle>Confirm Changes</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        Are you sure you want to save these profile matching settings?
+                                    </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
                                     <AlertDialogCancel>Cancel</AlertDialogCancel>
