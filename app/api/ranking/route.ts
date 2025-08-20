@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import Player from "@/models/Player";
 import { ensureDefaultSettings } from "@/services/profileMatchingSettings";
-import { gapToWeight, certToNumber, IDEAL } from "@/lib/profileMatchingUtils";
+import { gapToWeight, certToNumber, IDEAL, mapWinRateToScore, mapKdaToScore, mapRankToScore, mapExperienceToScore } from "@/lib/profileMatchingUtils";
 
 connectDB();
 
@@ -17,11 +17,11 @@ export async function GET(_req: NextRequest) {
             .map((p) => {
                 // kumpulkan nilai aktual & ideal
                 const rawValues = {
-                    winRate: p.winRate,
-                    kda: p.kda,
-                    rank: p.rank,
+                    winRate: mapWinRateToScore(p.winRate),
+                    kda: mapKdaToScore(p.kda),
+                    rank: mapRankToScore(p.rank),
                     tournamentCertificate: certToNumber(p.tournamentCertificate),
-                    tournamentExperienceCount: p.tournamentExperienceCount ?? 0,
+                    tournamentExperienceCount: mapExperienceToScore(p.tournamentExperienceCount) ?? 0,
                 };
                 const idealValues = IDEAL;
 
