@@ -57,22 +57,22 @@ export function certToNumber(cert?: string): number {
     if (!cert) return 0;
     switch (cert.toLowerCase()) {
         case "nasional":
-            return 3;
+            return 5;
         case "provinsi":
-            return 2;
+            return 4;
         case "kota":
-            return 1;
+            return 3;
         default:
             return 0;
     }
 }
 
 export const IDEAL = {
-    winRate: 4,
+    winRate: 5,
     kda: 5,
     rank: 5,
     tournamentExperienceCount: 5,
-    tournamentCertificate: 3,
+    tournamentCertificate: 5,
 } as const;
 
 export const WEIGHTS = {
